@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#087f8c">
+<title>Binangonan E-Transit</title>
+<style>
+:root{--teal:#087f8c;--navy:#123044;--bg:#f3f7f8;--muted:#61717c;--line:#dce6e9}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#172b36}
+header{background:linear-gradient(120deg,#075c68,#0d9aa0);color:white;padding:24px 18px 20px}
+.wrap{max-width:1050px;margin:auto}header .eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;opacity:.85}h1{margin:5px 0;font-size:clamp(1.7rem,5vw,2.6rem)}header p{margin:4px 0 0;max-width:700px;opacity:.92}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 0}nav a{color:white;text-decoration:none;border:1px solid #ffffff66;border-radius:99px;padding:7px 12px;font-size:.9rem}
+main{max-width:1050px;margin:18px auto;padding:0 14px 40px;display:grid;gap:16px}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 4px 14px #15323d08}
+h2{font-size:1.2rem;margin:0 0 12px;color:var(--navy)}h3{font-size:1rem;margin:0 0 8px}
+.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+label{display:block;font-weight:650;font-size:.88rem;margin-bottom:6px}select,input,button{font:inherit}select,input{width:100%;border:1px solid #cbd9dd;border-radius:10px;padding:11px;background:white;color:#172b36}
+button,.button{border:0;border-radius:10px;padding:11px 14px;background:var(--teal);color:white;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}button.secondary{background:#e6f3f4;color:#075c68}button:focus,a:focus,input:focus,select:focus{outline:3px solid #80d5d8;outline-offset:2px}
+.small{font-size:.85rem;color:var(--muted)}.notice{background:#fff6df;border:1px solid #f2d78b;border-radius:12px;padding:12px;color:#694c00;font-size:.9rem}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.pill{background:#eaf4f5;border-radius:99px;padding:5px 10px;font-size:.82rem;color:#15545b}
+.status{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.86rem}.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.green{background:#22a447}.yellow{background:#f3c629}.orange{background:#f28c28}.red{background:#d83a3a}
+.bar{height:12px;border-radius:99px;background:#e7ecee;overflow:hidden;margin:8px 0}.bar span{display:block;height:100%;border-radius:99px}
+table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{color:#49606a;background:#f7fafb}
+.table-wrap{overflow-x:auto}.bus{border:1px solid var(--line);border-radius:12px;padding:13px;margin:10px 0}.bus-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.map{min-height:245px;border-radius:14px;overflow:hidden;position:relative;background:linear-gradient(135deg,#dcefe8,#e6f0f8);border:1px solid #cbdedb;padding:18px}
+.map:before{content:"";position:absolute;inset:0;background-image:linear-gradient(25deg,transparent 47%,#fff 48%,#fff 51%,transparent 52%),linear-gradient(105deg,transparent 42%,#fff 43%,#fff 46%,transparent 47%),linear-gradient(165deg,transparent 62%,#fff 63%,#fff 66%,transparent 67%);opacity:.7}
+.map-inner{position:relative;z-index:1;display:flex;flex-direction:column;gap:12px;max-width:550px}
+.map-stop{background:white;border:1px solid #c9dcd9;border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 7px #12304410}
+.pin{background:var(--teal);color:white;border-radius:50%;width:28px;height:28px;display:grid;place-items:center;font-size:.8rem;font-weight:800;flex-shrink:0}
+footer{text-align:center;color:var(--muted);padding:15px;font-size:.85rem}
+@media(max-width:650px){.row,.three{grid-template-columns:1fr}.card{padding:15px}th,td{padding:8px 6px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="eyebrow">Community transport information prototype</div>
+<h1>🚌 Binangonan E-Transit</h1>
+<p>Plan your e-bus / e-jeep trip, check sample schedules and stops, and see passenger-capacity indicators in one place.</p>
+<nav><a href="#trip">Plan a trip</a><a href="#schedule">Timetable</a><a href="#buses">Bus status</a><a href="#guide">User guide</a></nav>
+</div></header>
+<main>
+<section class="card" id="trip">
+<h2>Plan your route</h2>
+<div class="row">
+<div><label for="destination">Destination</label><select id="destination"><option value="mega">Binangonan ⇄ SM Megamall</option><option value="feliz">Binangonan ⇄ Ayala Malls Feliz</option><option value="starmall">Binangonan ⇄ Starmall</option><option value="tropical">Binangonan ⇄ Tropical</option></select></div>
+<div><label for="direction">Direction</label><select id="direction"><option value="out">From Binangonan</option><option value="back">Going back to Binangonan</option></select></div>
+<div><label for="route">Route option</label><select id="route"></select></div>
+<div><label for="day">Day</label><select id="day"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select></div>
+</div>
+<div class="pills"><span class="pill">No account required</span><span class="pill">Mobile-friendly</span><span class="pill">Prototype data</span></div>
+<div id="tripSummary"></div>
+<div class="notice" style="margin-top:12px"><strong>Important:</strong> Routes, times, fares, vehicle/plate/driver details, passenger counts, and stops below are demonstration data only—not verified official operating information. Confirm legal loading areas and actual schedules with the operator/LGU before travel.</div>
+</section>
+
+<section class="card" id="schedule">
+<h2>Daily timetable & stops</h2>
+<p class="small">Example timetable for the selected route. Actual arrival times depend on traffic and operating conditions.</p>
+<div class="table-wrap"><table><thead><tr><th>Stop code</th><th>Stop / loading area</th><th>Estimated arrival</th><th>Board / alight</th></tr></thead><tbody id="stops"></tbody></table></div>
+</section>
+
+<section class="card" id="buses">
+<h2>Bus / e-jeep status</h2>
+<div class="row three">
+<div><div class="status"><span class="dot green"></span>Green · Low occupancy</div><p class="small">0–25% full</p></div>
+<div><div class="status"><span class="dot yellow"></span>Yellow · Moderate</div><p class="small">26–50% full</p></div>
+<div><div class="status"><span class="dot orange"></span>Orange · Nearly full</div><p class="small">51–75% full</p></div>
+<div><div class="status"><span class="dot red"></span>Red · Full / near max</div><p class="small">76–100% full</p></div>
+</div>
+<div id="busList"></div>
+<div class="notice">The bus positions and passenger counts are mock/demo values. Live tracking needs GPS devices or a driver app sending location data to a server; this page cannot track real vehicles by itself.</div>
+</section>
+
+<section class="card">
+<h2>Map-style route overview</h2>
+<div class="map"><div class="map-inner" id="mapStops"></div></div>
+<p class="small">Schematic stop list only—not a navigable map. A production version can integrate a mapping service and verified GPS coordinates.</p>
+</section>
+
+<section class="card">
+<h2>Arrival reminder</h2>
+<p>Choose a stop and enable notifications to test a browser reminder. The demo reminder runs on this page only; it does not detect your real GPS location.</p>
+<div class="row">
+<div><label for="reminderStop">Remind me at stop</label><select id="reminderStop"></select></div>
+<div style="align-self:end"><button id="enableNotice">Enable notification</button></div>
+</div>
+<p id="reminderStatus" class="small" aria-live="polite">Notifications are not enabled.</p>
+</section>
+
+<section class="card" id="guide">
+<h2>User guide</h2>
+<ol>
+<li>Choose your destination and direction.</li>
+<li>Select a route option and day to view the sample timetable and stops.</li>
+<li>Check the color and passenger count in Bus status. Green means less crowded; red means near capacity.</li>
+<li>Check the fare shown in the trip summary. In this prototype, fares are placeholders and must be replaced with official fares.</li>
+<li>Use Arrival reminder to test a browser notification. Real arrival alerts require GPS permission and live location integration.</li>
+</ol>
+<p class="small">The site is free to open and does not ask users to create an account. Publishing it online requires hosting. A real-time production service will also need a secure backend, verified operator data, and privacy/safety procedures for driver and plate information.</p>
+</section>
+</main>
+<footer>Binangonan E-Transit · Student / planning prototype · Verify all transport details before use</footer>
+<script>
+const data={
+ mega:{
+  name:"SM Megamall",
+  routes:[
+   {name:"Route 1 — Floodway / Manggahan",fare:"₱ placeholder",stops:[["BIN-01","Binangonan Terminal","6:00 AM"],["FLD-02","Floodway loading area (verify)","6:20 AM"],["MAN-03","Manggahan (verify stop)","6:40 AM"],["ORT-04","Ortigas corridor (verify stop)","7:05 AM"],["MEG-05","SM Megamall designated bay","7:20 AM"]]},
+   {name:"Route 2 — Ortigas Avenue Extension",fare:"₱ placeholder",stops:[["BIN-01","Binangonan Terminal","6:10 AM"],["TAY-02","Taytay designated stop (verify)","6:30 AM"],["ORT-03","Ortigas Ave. Extension (verify stop)","6:55 AM"],["MEG-05","SM Megamall designated bay","7:20 AM"]]}
+  ]
+ },
+ feliz:{
+  name:"Ayala Malls Feliz",
+  routes:[
+   {name:"Route 1 — Taytay / Cainta / Sta. Lucia / Marcos Highway (sample; verify stops)",fare:"₱ placeholder",stops:[["BIN-01","Binangonan Terminal","6:00 AM"],["TAY-02","Taytay designated loading area (verify)","6:20 AM"],["CAI-03","Cainta designated stop (verify)","6:40 AM"],["STL-04","Sta. Lucia area (verify stop)","7:00 AM"],["MRH-05","Marcos Highway corridor (verify stop)","7:10 AM"],["FEL-06","Ayala Malls Feliz designated bay (verify)","7:20 AM"]]}
+  ]
+ },
+ starmall:{
+  name:"Starmall",
+  routes:[
+   {name:"Route 1 — Binangonan to Starmall (sample route; stops to verify)",fare:"₱ placeholder",stops:[["BIN-01","Binangonan Terminal","6:00 AM"],["TAY-02","Taytay loading area (verify)","6:20 AM"],["ORT-03","Ortigas Avenue Extension (verify)","6:50 AM"],["STM-04","Starmall designated loading area (verify)","7:20 AM"]]}
+  ]
+ },
+ tropical:{
+  name:"Tropical",
+  routes:[
+   {name:"Route 1 — Binangonan to Tropical (sample route; stops to verify)",fare:"₱ placeholder",stops:[["BIN-01","Binangonan Terminal","6:00 AM"],["TAY-02","Taytay loading area (verify)","6:20 AM"],["CAI-03","Cainta / Ortigas Avenue Extension (verify)","6:50 AM"],["TRP-04","Tropical loading area (verify exact location)","7:20 AM"]]}
+  ]
+ }
+};
+const vehicles=[
+ {code:"BE-101",plate:"DEMO-0001",driver:"Driver details withheld in demo",capacity:24,pax:5,next:"Floodway / Manggahan",arrival:"~8 min",route:"mega"},
+ {code:"BE-102",plate:"DEMO-0002",driver:"Driver details withheld in demo",capacity:24,pax:10,next:"Ortigas Ave. Extension",arrival:"~14 min",route:"mega"},
+ {code:"EJ-201",plate:"DEMO-0003",driver:"Driver details withheld in demo",capacity:20,pax:15,next:"Ayala Malls Feliz route stops",arrival:"~6 min",route:"feliz"},
+ {code:"EJ-203",plate:"DEMO-0005",driver:"Driver details withheld in demo",capacity:20,pax:12,next:"Starmall route stops",arrival:"~9 min",route:"starmall"},
+ {code:"EJ-202",plate:"DEMO-0004",driver:"Driver details withheld in demo",capacity:20,pax:19,next:"Tropical route stops",arrival:"~3 min",route:"tropical"}
+];
+const $=id=>document.getElementById(id);
+function selected(){return data[$("destination").value]}
+function updateRoutes(){const old=$("route").value; $("route").innerHTML=selected().routes.map((r,i)=>`<option value="${i}">${r.name}</option>`).join("");if(old<$("route").options.length)$("route").value=old;updateView()}
+function currentRoute(){return selected().routes[Number($("route").value)||0]}
+function updateView(){
+ const d=selected(),r=currentRoute(),back=$("direction").value==="back";
+ const fare="To be confirmed by operator";
+ $("tripSummary").innerHTML=`<div class="pills"><span class="pill">${d.name}</span><span class="pill">${back?"Return to Binangonan":"Outbound from Binangonan"}</span><span class="pill">${$("day").value}</span></div><p><strong>Route:</strong> ${r.name}</p><p><strong>Estimated travel time:</strong> Demo estimate 60–90 minutes; traffic may change this.</p><p><strong>Fare:</strong> ${fare} <span class="small">(official fare not supplied)</span></p>`;
+ const stops=back?[...r.stops].reverse():r.stops;
+ $("stops").innerHTML=stops.map((s,i)=>`<tr><td><strong>${s[0]}</strong></td><td>${s[1]}</td><td>${back?reverseTime(s[2]):s[2]}</td><td>${i===0?"Board / transfer":i===stops.length-1?"Alight / board return":"Board / alight if authorized"}</td></tr>`).join("");
+ $("mapStops").innerHTML=stops.map((s,i)=>`<div class="map-stop"><span class="pin">${i+1}</span><div><strong>${s[1]}</strong><div class="small">${s[0]} · ${back?reverseTime(s[2]):s[2]}</div></div></div>`).join("");
+ $("reminderStop").innerHTML=stops.map(s=>`<option value="${s[0]}">${s[1]}</option>`).join("");
+}
+function reverseTime(t){return "Return estimate — confirm with operator"}
+function capacity(v){let pct=Math.round(v.pax/v.capacity*100),color=pct<=25?"green":pct<=50?"yellow":pct<=75?"orange":"red",label=pct<=25?"Low occupancy":pct<=50?"Moderate":pct<=75?"Nearly full":"Full / near max";return {pct,color,label}}
+function renderBuses(){
+ $("busList").innerHTML=vehicles.map(v=>{let c=capacity(v);return `<div class="bus"><div class="bus-top"><div><h3>${v.code} <span class="small">· ${v.route==="mega"?"Megamall route":v.route==="starmall"?"Starmall route":v.route==="feliz"?"Ayala Malls Feliz route":"Tropical route"}</span></h3><div class="small">Plate: ${v.plate} · ${v.driver}</div></div><div class="status"><span class="dot ${c.color}"></span>${c.label}</div></div><div class="bar"><span style="width:${c.pct}%;background:${c.color==="green"?"#22a447":c.color==="yellow"?"#f3c629":c.color==="orange"?"#f28c28":"#d83a3a"}"></span></div><div><strong>${v.pax} / ${v.capacity} passengers</strong> <span class="small">(${c.pct}% capacity)</span></div><p class="small">Next stop: ${v.next} · Demo ETA: ${v.arrival}</p></div>`}).join("");
+}
+["destination","direction","route","day"].forEach(id=>$(id).addEventListener("change",()=>id==="destination"?updateRoutes():updateView()));
+$("enableNotice").addEventListener("click",async()=>{
+ const status=$("reminderStatus");
+ if(!("Notification" in window)){status.textContent="This browser does not support notifications. Keep this page open and check your selected stop.";return}
+ try{const permission=await Notification.requestPermission();if(permission==="granted"){status.textContent="Demo notification enabled. This is a test reminder, not GPS-based.";new Notification("Binangonan E-Transit",{body:"Demo reminder enabled for stop "+$("reminderStop").value+". Real arrival detection is not connected."})}else status.textContent="Notification permission was not granted. You can still use the timetable on this page."}catch(e){status.textContent="Could not enable notifications in this browser."}
+});
+updateRoutes();renderBuses();
+</script>
+</body></html>
